@@ -1,0 +1,1 @@
+# Java-Metrics-Aggregator\n\n## Overview\nEnterprise-grade metrics aggregator implementation in Java.\n\n## Quick Start (1-Click Build)\n\n```bash\ngit clone https://github.com/skylerblue333/Java-Metrics-Aggregator.git\ncd Java-Metrics-Aggregator\n# Build instructions depend on the language\n```\n
