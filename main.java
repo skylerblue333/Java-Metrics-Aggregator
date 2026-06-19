@@ -1,1 +1,0 @@
-// Starting Java-Metrics-Aggregator service\n
