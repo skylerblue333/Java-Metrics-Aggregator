@@ -1,44 +1,28 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# Metrics Aggregator
 
-## Project profile and code-audit snapshot
+A small Python/FastAPI event-ingestion and aggregation component for the SKYCOIN4444 observability boundary.
 
-**What this is:** **Java-Metrics-Aggregator** is a public repository described as: “Enterprise-grade metrics aggregator implementation in Java. #SkyCoin4444 #AI #Blockchain #DevOps #Innovation” Its dominant language signals are **Python (4 files)**.
+## Implemented
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **18 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+- `POST /api/v1/events` for validated event ingestion
+- bounded in-memory event retention (1,000 records)
+- `GET /api/v1/events` for recent events
+- `GET /api/v1/metrics` for counts by event type
+- `GET /health` health endpoint
+- Pydantic request validation
 
-**Implementation evidence:** 2 test-related file(s) detected; 2 dependency or package manifest(s) detected; 2 build/CI/infrastructure signal(s) detected; and 3 documentation or governance file(s) detected. Test filenames observed include `tests/__init__.py`, `tests/test_main.py`. Dependency or package files include `package.json`, `requirements.txt`. Build, CI, or infrastructure signals include `Dockerfile`, `.github/workflows/ci.yml`.
+## Architecture role
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+This repository is a focused **metrics/event aggregation primitive**. It is not a production metrics database, Java application, hosted SaaS product, or enterprise observability platform by itself.
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+The implementation intentionally uses bounded in-memory storage. Production consolidation should replace that storage with a durable metrics/event backend and connect it to the canonical SKYCOIN4444 observability pipeline.
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+## Verification status
 
----
+The repository contains CI/test infrastructure, but this README does not claim that every workflow currently passes. Production readiness, scalability, HA, external integrations, customers, ARR, and enterprise dependencies remain unverified.
 
-# Java Metrics Aggregator
+## Consolidation target
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/Java-Metrics-Aggregator?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/Java-Metrics-Aggregator?style=flat-square)
+`SKYCOIN4444 → Security/Infrastructure → Observability → Metrics/Event Aggregation`
 
-## 🌟 Overview
-**Java-Metrics-Aggregator** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **Python**.
-
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
-
-## 🛠️ Technology Stack
-- **Primary Domain**: Python
-- **Ecosystem**: SkyCoin4444 Digital Platform
-
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
-
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
-
----
-*Powered by SkyCoin4444*
+Potential production foundations include OpenTelemetry and a durable metrics/event backend rather than a custom replacement for established infrastructure.
