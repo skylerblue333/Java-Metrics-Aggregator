@@ -1,28 +1,44 @@
-# Metrics Aggregator
+# Sky Metrics Aggregator (Java)
 
-A small Python/FastAPI event-ingestion and aggregation component for the SKYCOIN4444 observability boundary.
+**Status: engineering beta.** A focused Java 21 in-memory numeric metrics aggregation service for the SKYCOIN4444 observability boundary.
 
 ## Implemented
 
-- `POST /api/v1/events` for validated event ingestion
-- bounded in-memory event retention (1,000 records)
-- `GET /api/v1/events` for recent events
-- `GET /api/v1/metrics` for counts by event type
-- `GET /health` health endpoint
-- Pydantic request validation
+- concurrent per-metric count, sum, min, max, and average
+- bounded metric names (`[A-Za-z][A-Za-z0-9_.-]{0,63}`)
+- finite-value validation
+- configurable metric-cardinality limit (`MAX_METRICS`, default 1000)
+- `POST /metrics?name=<metric>&value=<number>` ingestion
+- `GET /metrics?name=<metric>` summary retrieval
+- `GET /healthz` and `GET /readyz`
+- JUnit tests, Maven verification, dependency scanning
+- non-root container packaging and CI smoke health check
 
-## Architecture role
+## Run locally
 
-This repository is a focused **metrics/event aggregation primitive**. It is not a production metrics database, Java application, hosted SaaS product, or enterprise observability platform by itself.
+```bash
+mvn clean verify
+mvn -DskipTests package
+java -jar target/sky-metrics-aggregator-0.1.0.jar
+```
 
-The implementation intentionally uses bounded in-memory storage. Production consolidation should replace that storage with a durable metrics/event backend and connect it to the canonical SKYCOIN4444 observability pipeline.
+Then:
 
-## Verification status
+```bash
+curl -X POST 'http://localhost:8080/metrics?name=api.latency_ms&value=42.5'
+curl 'http://localhost:8080/metrics?name=api.latency_ms'
+```
 
-The repository contains CI/test infrastructure, but this README does not claim that every workflow currently passes. Production readiness, scalability, HA, external integrations, customers, ARR, and enterprise dependencies remain unverified.
+## Boundaries
 
-## Consolidation target
+This is not a Prometheus replacement, OpenTelemetry collector, durable time-series database, distributed metrics cluster, or verified production deployment. State is process-local and in memory. It has no authentication, persistence, replication, multi-tenant isolation, TLS termination, retention tiers, histograms/percentiles, or cross-node aggregation.
 
-`SKYCOIN4444 → Security/Infrastructure → Observability → Metrics/Event Aggregation`
+For production integration, use this repository as a small aggregation/service pattern or adapter around established observability infrastructure rather than as a substitute for a durable metrics backend.
 
-Potential production foundations include OpenTelemetry and a durable metrics/event backend rather than a custom replacement for established infrastructure.
+## SKYCOIN4444 role
+
+`SKYCOIN4444 → Infrastructure/Observability → Metrics aggregation boundary`
+
+## License
+
+See `LICENSE`.
